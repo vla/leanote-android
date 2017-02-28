@@ -20,6 +20,7 @@ import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.greenrobot.eventbus.EventBus;
 import org.houxg.leamonax.ui.MainActivity;
+import org.houxg.leamonax.utils.SslUtils;
 
 public class Leamonax extends Application {
 
@@ -47,6 +48,13 @@ public class Leamonax extends Application {
         JodaTimeAndroid.init(this);
         if (BuildConfig.DEBUG) {
             Stetho.initializeWithDefaults(this);
+        }
+
+        try {
+            //ignore SSL verify!
+            SslUtils.ignoreSsl();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

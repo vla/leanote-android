@@ -9,6 +9,7 @@ import org.houxg.leamonax.network.api.NoteApi;
 import org.houxg.leamonax.network.api.NotebookApi;
 import org.houxg.leamonax.network.api.UserApi;
 import org.houxg.leamonax.service.AccountService;
+import org.houxg.leamonax.utils.SslUtils;
 
 import java.io.IOException;
 
@@ -69,6 +70,10 @@ public class ApiProvider {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             builder.addNetworkInterceptor(interceptor);
         }
+
+        builder.sslSocketFactory(SslUtils.sslContext.getSocketFactory())
+                .hostnameVerifier(SslUtils.DO_NOT_VERIFY);
+
         OkHttpClient client = builder.build();
         mApiRetrofit = new Retrofit.Builder()
                 .baseUrl(host + "/api/")
@@ -97,5 +102,6 @@ public class ApiProvider {
     public NotebookApi getNotebookApi() {
         return mApiRetrofit.create(NotebookApi.class);
     }
+
 
 }
